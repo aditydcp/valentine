@@ -124,26 +124,37 @@ function moveNoButton() {
   }
 }
 
-function createSparkles(count = 25) {
+function createSparkles() {
   const container = document.getElementById("sparkle-container");
   container.innerHTML = "";
 
-  for (let i = 0; i < count; i++) {
-    const sparkle = document.createElement("div");
-    sparkle.classList.add("sparkle");
+  const createStar = (className, sizeMin, sizeMax, count) => {
+    for (let i = 0; i < count; i++) {
+      const star = document.createElement("div");
+      star.classList.add("star", className);
 
-    const size = Math.random() * 10 + 8; // 8px–18px
-    sparkle.style.width = `${size}px`;
-    sparkle.style.height = `${size}px`;
+      const size = Math.random() * (sizeMax - sizeMin) + sizeMin;
+      star.style.width = `${size}px`;
+      star.style.height = `${size}px`;
 
-    sparkle.style.left = `${Math.random() * 100}%`;
-    sparkle.style.top = `${Math.random() * 100}%`;
+      star.style.left = `${Math.random() * 100}%`;
+      star.style.top = `${Math.random() * 100}%`;
 
-    const duration = Math.random() * 3 + 4; // 4–7s
-    sparkle.style.animationDuration = `${duration}s`;
+      const duration = Math.random() * 3 + 4;
+      star.style.animationDuration = `${duration}s`;
 
-    container.appendChild(sparkle);
-  }
+      container.appendChild(star);
+    }
+  };
+
+  // ⭐ Large (few, dramatic)
+  createStar("star-large", 14, 20, 8);
+
+  // ✨ Medium (main layer)
+  createStar("star-medium", 8, 14, 15);
+
+  // · Micro stars (ambient background)
+  createStar("star-micro", 2, 4, 40);
 }
 
 function showWelcomeTransition() {
@@ -154,7 +165,7 @@ function showWelcomeTransition() {
   overlay.classList.remove("opacity-0", "pointer-events-none");
 
   // Create sparkles
-  createSparkles(40);
+  createSparkles();
 
   // Start the animation
   overlayTextContainer.classList.add("animate-welcome");

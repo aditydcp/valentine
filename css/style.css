@@ -24,9 +24,9 @@ body {
   animation: welcomeFade 3s ease forwards;
 }
 
-.sparkle {
+/* Base star shape */
+.star {
   position: absolute;
-  background: radial-gradient(circle, white 0%, #ffd1f0 60%, transparent 70%);
   clip-path: polygon(
     50% 0%,
     61% 35%,
@@ -39,28 +39,45 @@ body {
     2% 35%,
     39% 35%
   );
-  animation: sparkleFloat 6s ease-in-out infinite;
 }
 
-@keyframes sparkleFloat {
-  0% {
-    opacity: 0.3;
-    transform: translate(0px, 0px) scale(0.8) rotate(0deg);
-  }
-  25% {
-    opacity: 1;
-    transform: translate(8px, -6px) scale(1.1) rotate(10deg);
-  }
-  50% {
-    opacity: 0.7;
-    transform: translate(15px, 10px) scale(1.2) rotate(-10deg);
-  }
-  75% {
-    opacity: 1;
-    transform: translate(-5px, 8px) scale(1.05) rotate(5deg);
-  }
-  100% {
-    opacity: 0.3;
-    transform: translate(0px, 0px) scale(0.8) rotate(0deg);
-  }
+/* Large glowing stars */
+.star-large {
+  background: radial-gradient(circle, white 0%, #ffd1f0 60%, transparent 70%);
+  filter: drop-shadow(0 0 8px white);
+  animation: starFloatLarge 7s ease-in-out infinite;
+}
+
+/* Medium stars */
+.star-medium {
+  background: radial-gradient(circle, white 0%, #ffc2ec 60%, transparent 70%);
+  filter: drop-shadow(0 0 5px white);
+  animation: starFloatMedium 6s ease-in-out infinite;
+}
+
+/* Micro stars (tiny twinkle dots) */
+.star-micro {
+  background: white;
+  border-radius: 50%;
+  animation: starTwinkle 3s ease-in-out infinite;
+  opacity: 0.6;
+}
+
+/* Animations */
+
+@keyframes starFloatLarge {
+  0%   { transform: translate(0, 0) scale(0.8) rotate(0deg); opacity: 0.4; }
+  50%  { transform: translate(15px, 10px) scale(1.2) rotate(15deg); opacity: 1; }
+  100% { transform: translate(0, 0) scale(0.8) rotate(0deg); opacity: 0.4; }
+}
+
+@keyframes starFloatMedium {
+  0%   { transform: translate(0, 0) scale(0.9); opacity: 0.3; }
+  50%  { transform: translate(10px, -8px) scale(1.1); opacity: 0.9; }
+  100% { transform: translate(0, 0) scale(0.9); opacity: 0.3; }
+}
+
+@keyframes starTwinkle {
+  0%, 100% { opacity: 0.2; }
+  50%      { opacity: 1; }
 }
