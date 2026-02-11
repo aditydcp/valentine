@@ -15,10 +15,10 @@
 </head>
 
 <body class="bg-pink-50 min-h-screen flex items-center justify-center px-6 overflow-hidden">
-  <div class="w-full max-w-md mx-auto min-h-[70vh] my-auto text-center content-center">
+  <div id="bounding-container" class="relative w-full max-w-md mx-auto min-h-[70vh] my-auto text-center content-center">
 
     <!-- Step 1: Name Input -->
-    <div id="name-screen" class="text-center space-y-4">
+    <div id="name-screen" class="text-center flex flex-col items-center space-y-4">
       <h1 class="text-3xl sm:text-4xl font-bold text-pink-600">
         First, tell me your name
       </h1>
@@ -26,8 +26,8 @@
       <input id="name-input" type="text" placeholder="Enter your name..."
         class="px-4 py-2 rounded-xl w-[60%] border border-pink-300 focus:outline-none focus:ring-2 focus:ring-pink-400" />
 
-      <p id="error-text" class="text-red-500">
-      </p>
+      <div id="name-error-text" class="text-red-500 hidden">
+      </div>
 
       <button id="submit-button" class="bg-pink-500 hover:bg-pink-600 text-white px-6 py-2 rounded-xl transition">
         Continue ❤️
@@ -35,21 +35,39 @@
     </div>
 
     <!-- Step 2: Question Screen -->
-    <div id="question-screen" class="hidden text-center space-y-6">
+    <div id="question-screen" class="hidden text-center space-y-4">
+      <img id="question-img" src="assets/rose_cat.png" alt="Valentine" class="w-[40%] mx-auto" />
+      
       <h1 class="text-3xl sm:text-4xl font-bold text-pink-600">
         Would you be my Valentine?
       </h1>
 
-      <div class="relative flex justify-center gap-6">
-        <button id="yes-button"
-          class="bg-green-500 hover:bg-green-600 text-white px-8 py-4 text-lg h-fit rounded-xl transition">
-          Yes 💖
-        </button>
-
-        <button id="no-button" class="bg-gray-400 text-white px-8 py-4 text-lg rounded-xl h-fit transition">
-          No 😢
-        </button>
+      <div id="question-error-text" class="text-red-500 hidden">
       </div>
+
+      <div class="relative w-full max-w-sm mx-auto">
+        <div class="grid grid-cols-2 gap-4 place-items-center">
+
+          <div id="yes-button-container" class="w-full flex justify-center">
+            <button id="yes-button"
+              class="bg-green-500 hover:bg-green-600 text-white px-8 py-4 text-lg rounded-xl transition">
+              Yes 💖
+            </button>
+          </div>
+
+          <div class="w-full flex justify-center relative">
+            <button id="no-button" class="bg-gray-400 text-white px-8 py-4 text-lg rounded-xl transition">
+              No 😢
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <button id="reset-button" class="relative bg-pink-500 hover:bg-pink-600 text-white px-6 py-2 z-20 rounded-xl transition">
+        Reset
+      </button>
+
     </div>
 
     <!-- Step 3: Success Screen -->
@@ -69,8 +87,8 @@
     <!-- Sparkles Container -->
     <div id="sparkle-container" class="absolute w-full h-full"></div>
 
-    <div id="welcome-text-container" class="flex flex-col gap-4 items-center">
-      <h1 class="text-white text-4xl sm:text-5xl font-bold scale-95">
+    <div id="welcome-text-container" class="flex flex-col gap-3 items-center">
+      <h1 class="text-white text-4xl sm:text-5xl font-bold scale-95 pl-2">
         Welcome Sayang ❤️
       </h1>
       <p class="text-white text-lg">

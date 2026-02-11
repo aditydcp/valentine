@@ -44,3 +44,25 @@ export const wrongNameErrorTexts = [
   "Goodbye",
   "**THIS IS AN AUTOMATED MESSAGE**\nThe person behind this had left, and will remain gone",
 ]
+
+export const rejectQuestionErrorTexts = [
+  "Are you sure?",
+  "Are you really sure?",
+  "Are you really really sure?",
+  "Are you like, really really really sure?",
+  "Are you super duper really really sure?",
+  "I got cookies and flowers for you",
+  "and a big hug too",
+  "and a big kiss too",
+  "If I were you, I would hit Yes so many times already",
+  "You're gonna miss out on something special, you know",
+  "Ohoho you love to tease me, don't you?",
+  "It's not like I can't do this all day, right?",
+  "C'mon, baby",
+  "Wrong answer",
+  "Nope",
+  "Really? This many times?",
+  "Can you just click Yes already?",
+  "Please 😢",
+  "We're not going anywhere until you say Yes",
+]

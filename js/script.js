@@ -1,4 +1,4 @@
-import { emptyNameErrorTexts, partialNameErrorTexts, wrongNameErrorTexts } from "./texts.js";
+import { emptyNameErrorTexts, partialNameErrorTexts, wrongNameErrorTexts, rejectQuestionErrorTexts } from "./texts.js";
 
 const intendedPersonName = "Yohana Sinta Kristyasari";
 const intendedPersonNickname = "Sinta";
@@ -9,13 +9,22 @@ const errorState = {
   wrong: { count: 0, texts: wrongNameErrorTexts },
 };
 
+const questionMode = ["anti-reject", "pro-yes"];
+
+const questionState = {
+  reject: { count: 0, texts: rejectQuestionErrorTexts },
+  yes: { scale: 1, zIndex: 0 },
+  mode: Math.random() < 0.5 ? questionMode[0] : questionMode[1],
+}
+
 function showNameErrorText(type) {
-  const errorText = document.getElementById("error-text");
+  const errorText = document.getElementById("name-error-text");
   const input = document.getElementById("name-input");
 
   const state = errorState[type];
-
   if (!state) return;
+
+  errorText.classList.remove("hidden");
 
   const { count, texts } = state;
 
@@ -95,7 +104,7 @@ function submitName() {
 
   document.getElementById("bg-music")
     .play()
-    .catch(() => {});
+    .catch(() => { });
 }
 
 function answerYes() {
@@ -105,23 +114,116 @@ function answerYes() {
   message.innerText = `Thank you, ${intendedPersonNickname}. You just made me the happiest person alive ❤️`;
 }
 
-function moveNoButton() {
-  const button = document.getElementById("no-button");
-  const container = button.parentElement.parentElement.parentElement;
-
-  button.classList.add("absolute");
-
-  const maxX = container.clientWidth - 2 * button.clientWidth;
-  const maxY = container.clientHeight - 2 * button.clientHeight;
-
-  const x = Math.random() * maxX;
-  const y = Math.random() * maxY;
-
-  button.style.transform = `translate(${x}px, ${y}px)`;
+function answerNo() {
+  updateQuestionState();
 
   if (navigator.vibrate) {
     navigator.vibrate(100);
   }
+}
+
+function resetQuestion() {
+  updateQuestionState(true);
+}
+
+function updateQuestionState(reset = false) {
+  const errorText = document.getElementById("question-error-text");
+  const yesButtonContainer = document.getElementById("yes-button-container");
+  const yesButton = document.getElementById("yes-button");
+  const noButton = document.getElementById("no-button");
+
+  if (reset) {
+    questionState.reject = { count: 0, texts: rejectQuestionErrorTexts };
+    questionState.yes = { scale: 1, zIndex: 0 };
+    questionState.mode = questionMode[questionState.mode === questionMode[0] ? 1 : 0];
+
+    toggleCat("normal");
+    errorText.classList.add("hidden");
+    yesButton.style.transform = "scale(1)";
+    yesButtonContainer.classList.remove("z-10");
+    noButton.style.transform = "translate(0px, 0px)";
+    noButton.classList.remove("absolute");
+
+    return;
+  }
+
+  const { count, texts } = questionState.reject;
+
+  errorText.classList.remove("hidden");
+
+  if (count === 0) toggleCat("angy");
+
+  errorText.innerText =
+    count < texts.length
+      ? texts[count]
+      : texts[texts.length - 1];
+
+  questionState.reject.count++;
+
+  if (questionState.mode === "anti-reject") moveNoButton();
+  if (questionState.mode === "pro-yes") enlargeYesButton();
+
+  // Shake animation
+  yesButtonContainer.classList.remove("shake");
+  void yesButtonContainer.offsetWidth;
+  yesButtonContainer.classList.add("shake");
+}
+
+function toggleCat(state) {
+  const image = document.getElementById("question-img");
+  switch (state) {
+    case "normal":
+      image.src = "assets/rose_cat.png";
+      break;
+    case "angy":
+      image.src = "assets/rose_cat_angy.png";
+      break;
+  }
+}
+
+function enlargeYesButton() {
+  const container = document.getElementById("yes-button-container");
+  const button = document.getElementById("yes-button");
+
+  questionState.yes.zIndex = 10;
+  container.classList.add("z-10");
+
+  let currentScale = questionState.yes.scale;
+  currentScale *= 1.2;
+  questionState.yes.scale = currentScale;
+
+  button.style.transform = `scale(${currentScale})`;
+}
+
+
+function moveNoButton() {
+  const button = document.getElementById("no-button");
+  const container = document.getElementById("bounding-container");
+
+  const padding = 40;
+
+  button.classList.add("absolute");
+
+  const containerRect = container.getBoundingClientRect();
+  const buttonRect = button.getBoundingClientRect();
+
+  // Maximum allowed position (inside padding)
+  const maxX = containerRect.width - buttonRect.width - padding;
+  const maxY = containerRect.height - buttonRect.height - padding;
+
+  // Random target inside safe area
+  const targetX = Math.random() * (maxX - padding) + padding;
+  const targetY = Math.random() * (maxY - padding) + padding;
+
+  // Current position relative to container
+  const currentX = buttonRect.left - containerRect.left;
+  const currentY = buttonRect.top - containerRect.top;
+
+  // Compute translation delta
+  const deltaX = targetX - currentX;
+  const deltaY = targetY - currentY;
+
+  button.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
 }
 
 function createSparkles() {
@@ -196,5 +298,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document
     .getElementById("no-button")
-    .addEventListener("click", moveNoButton);
+    .addEventListener("click", answerNo);
+
+  document
+    .getElementById("reset-button")
+    .addEventListener("click", resetQuestion);
 });
