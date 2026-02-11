@@ -91,7 +91,7 @@ function submitName() {
     return;
   }
 
-  showScreen("question-screen");
+  showWelcomeTransition();
 
   document.getElementById("bg-music")
     .play()
@@ -122,6 +122,31 @@ function moveNoButton() {
   if (navigator.vibrate) {
     navigator.vibrate(100);
   }
+}
+
+function showWelcomeTransition() {
+  const overlay = document.getElementById("welcome-overlay");
+  const overlayTextContainer = document.getElementById("welcome-text-container");
+
+  // Show overlay
+  overlay.classList.remove("opacity-0", "pointer-events-none");
+
+  // Start the animation
+  overlayTextContainer.classList.add("animate-welcome");
+
+  // After seconds delay → move to question screen
+  setTimeout(() => {
+    showScreen("question-screen");
+
+    // Fade out overlay
+    overlay.classList.add("opacity-0");
+
+    // Remove blocking after fade
+    setTimeout(() => {
+      overlay.classList.add("pointer-events-none");
+    }, 500);
+
+  }, 2000);
 }
 
 document.addEventListener("DOMContentLoaded", () => {

@@ -14,3 +14,12 @@ body {
 .shake {
   animation: shake 0.4s ease;
 }
+
+@keyframes welcomeFade {
+  0% { transform: translateX(-4px); }
+  100% { transform: translateX(4px); }
+}
+
+.animate-welcome {
+  animation: welcomeFade 3s ease forwards;
+}
