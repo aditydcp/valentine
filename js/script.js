@@ -1,144 +1,78 @@
+import { emptyNameErrorTexts, partialNameErrorTexts, wrongNameErrorTexts } from "./texts.js";
+
 const intendedPersonName = "Yohana Sinta Kristyasari";
 const intendedPersonNickname = "Sinta";
 
-let emptyNameErrorCount = 0;
-let emptyNameErrorTexts = [
-  "Tell me your name first",
-  "I need to know who you are before we continue",
-  "I need to make sure you are who I think you are",
-  "This site is intended for a special person,\nI need to make sure it's you",
-  "I can do this all day, you know",
-  "I don't want this to land on someone\nother than the intended person",
-  "This is a private site,\nonly the intended person should see it",
-  "We won't be able to continue\nif you don't tell me your name",
-  "Nope",
-  "That won't do",
-  "I need a name",
-  "Give it up already",
-  "Not going anywhere, are we?",
-  "Fine, you can leave it blank",
-  "SIKE! HAHA",
-  "Please give me your name",
-  "Do you not know your name?",
-  "I need you to tell me your name",
-  "**THIS IS AN AUTOMATED MESSAGE**\nThe person behind this had left, and will remain gone\nuntil you input your name",
-]
+const errorState = {
+  empty: { count: 0, texts: emptyNameErrorTexts },
+  partial: { count: 0, texts: partialNameErrorTexts },
+  wrong: { count: 0, texts: wrongNameErrorTexts },
+};
 
-let partialNameErrorCount = 0;
-let partialNameErrorTexts = [
-  "Is that you? Please enter your full name",
-  "Are you who I think you are? Please enter your full name",
-  "Hmmm, I can't be sure yet. Please enter your full name",
-  "Is this the person I'm looking for? Please enter your full name",
-  "I'm still not sure about that. Please enter your full name",
-  "Are you who I'm looking for? Please enter your full name",
-  "If this is really you, please enter your full name",
-  "Please enter your full name",
-  "Is that your full name? If so, then sorry you can't continue",
-]
-
-let wrongNameErrorCount = 0;
-let wrongNameErrorTexts = [
-  "I'm sorry, I don't think you're the right person",
-  "Hello? Why are you still here?",
-  "Who are you?",
-  "The exit's in front of you",
-  "Please press the \"X\" button on this browser tab",
-  "This is a private site,\nonly the intended person may continue",
-  "You may leave now",
-  "Any second now",
-  "Goodbye",
-  "**THIS IS AN AUTOMATED MESSAGE**\nThe person behind this had left, and will remain gone",
-]
-
-function showNameErrorText(key) {
+function showNameErrorText(type) {
   const errorText = document.getElementById("error-text");
   const input = document.getElementById("name-input");
 
-  switch (key) {
-    case "empty":
-      if (emptyNameErrorCount < emptyNameErrorTexts.length) {
-        errorText.innerText = emptyNameErrorTexts[emptyNameErrorCount];
-        emptyNameErrorCount++;
-      } else {
-        errorText.innerText = emptyNameErrorTexts[emptyNameErrorTexts.length - 1];
-      }
-      break;
-    case "partial":
-      if (partialNameErrorCount < partialNameErrorTexts.length) {
-        errorText.innerText = partialNameErrorTexts[partialNameErrorCount];
-        partialNameErrorCount++;
-      } else {
-        showNameErrorText("wrong");
-        return;
-      }
-      break;
-    case "wrong":
-      if (wrongNameErrorCount < wrongNameErrorTexts.length) {
-        errorText.innerText = wrongNameErrorTexts[wrongNameErrorCount];
-        wrongNameErrorCount++;
-      } else {
-        errorText.innerText = wrongNameErrorTexts[wrongNameErrorTexts.length - 1];
-      }
-      break;
-  }
+  const state = errorState[type];
 
-  input.classList.remove("shake"); // reset if already applied
-  void input.offsetWidth; // force reflow so animation can replay
+  if (!state) return;
+
+  const { count, texts } = state;
+
+  errorText.innerText =
+    count < texts.length
+      ? texts[count]
+      : texts[texts.length - 1];
+
+  state.count++;
+
+  // Shake animation
+  input.classList.remove("shake");
+  void input.offsetWidth;
   input.classList.add("shake");
 }
 
 function validateUser(name) {
   const normalized = name.toLowerCase().replace(/\s+/g, " ").trim();
-  const expected = "yohana sinta kristyasari";
+  const expected = intendedPersonName.toLowerCase().replace(/\s+/g, " ").trim();
 
-  // Exact match
   if (normalized === expected) {
-    return true;
+    return { valid: true };
   }
 
-  // Check partial name parts
   const expectedParts = expected.split(" ");
   const inputParts = normalized.split(" ");
 
-  // 1️⃣ Check if all words are valid
-  const allValidWords = inputParts.every(part => expectedParts.includes(part));
+  const allValidWords = inputParts.every(part =>
+    expectedParts.includes(part)
+  );
 
   if (!allValidWords) {
-    showNameErrorText("wrong");
-    return false;
+    return { valid: false, type: "wrong" };
   }
 
-  // 2️⃣ Check correct order (subsequence check)
+  // subsequence check
   let lastIndex = -1;
-  let isInOrder = true;
 
   for (const part of inputParts) {
     const currentIndex = expectedParts.indexOf(part);
 
     if (currentIndex <= lastIndex) {
-      isInOrder = false;
-      break;
+      return { valid: false, type: "wrong" };
     }
 
     lastIndex = currentIndex;
   }
 
-  if (isInOrder) {
-    showNameErrorText("partial");
-  } else {
-    showNameErrorText("wrong");
-  }
-
-  return false
+  return { valid: false, type: "partial" };
 }
 
 function showScreen(screenId) {
-  document.getElementById("name-screen").classList.add("hidden");
-  document.getElementById("question-screen").classList.add("hidden");
-  document.getElementById("success-screen").classList.add("hidden");
+  document.querySelectorAll("[id$='-screen']")
+    .forEach(el => el.classList.add("hidden"));
 
-  document.getElementById(screenId).classList.remove("hidden");
+  document.getElementById(screenId)
+    .classList.remove("hidden");
 }
 
 function submitName() {
@@ -150,13 +84,18 @@ function submitName() {
     return;
   }
 
-  if (!validateUser(userName)) return;
+  const result = validateUser(userName);
+
+  if (!result.valid) {
+    showNameErrorText(result.type);
+    return;
+  }
 
   showScreen("question-screen");
 
-  // Start music after user interaction
-  const music = document.getElementById("bg-music");
-  music.play().catch(() => { });
+  document.getElementById("bg-music")
+    .play()
+    .catch(() => {});
 }
 
 function answerYes() {
@@ -184,3 +123,17 @@ function moveNoButton() {
     navigator.vibrate(100);
   }
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  document
+    .getElementById("submit-button")
+    .addEventListener("click", submitName);
+
+  document
+    .getElementById("yes-button")
+    .addEventListener("click", answerYes);
+
+  document
+    .getElementById("no-button")
+    .addEventListener("click", moveNoButton);
+});

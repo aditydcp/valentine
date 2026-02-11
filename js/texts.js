@@ -1,0 +1,46 @@
+export const emptyNameErrorTexts = [
+  "Tell me your name first",
+  "I need to know who you are before we continue",
+  "I need to make sure you are who I think you are",
+  "This site is intended for a special person,\nI need to make sure it's you",
+  "I can do this all day, you know",
+  "I don't want this to land on someone\nother than the intended person",
+  "This is a private site,\nonly the intended person should see it",
+  "We won't be able to continue\nif you don't tell me your name",
+  "Nope",
+  "That won't do",
+  "I need a name",
+  "Give it up already",
+  "Not going anywhere, are we?",
+  "Fine, you can leave it blank",
+  "SIKE! HAHA",
+  "Please give me your name",
+  "Do you not know your name?",
+  "I need you to tell me your name",
+  "**THIS IS AN AUTOMATED MESSAGE**\nThe person behind this had left, and will remain gone\nuntil you input your name",
+]
+
+export const partialNameErrorTexts = [
+  "Is that you? Please enter your full name",
+  "Are you who I think you are? Please enter your full name",
+  "Hmmm, I can't be sure yet. Please enter your full name",
+  "Is this the person I'm looking for? Please enter your full name",
+  "I'm still not sure about that. Please enter your full name",
+  "Are you who I'm looking for? Please enter your full name",
+  "If this is really you, please enter your full name",
+  "Please enter your full name",
+  "Is that your full name? If so, then sorry you can't continue",
+]
+
+export const wrongNameErrorTexts = [
+  "I'm sorry, I don't think you're the right person",
+  "Hello? Why are you still here?",
+  "Who are you?",
+  "The exit's in front of you",
+  "Please press the \"X\" button on this browser tab",
+  "This is a private site,\nonly the intended person may continue",
+  "You may leave now",
+  "Any second now",
+  "Goodbye",
+  "**THIS IS AN AUTOMATED MESSAGE**\nThe person behind this had left, and will remain gone",
+]

@@ -28,7 +28,7 @@
       <p id="error-text" class="text-red-500">
       </p>
 
-      <button onclick="submitName()" class="bg-pink-500 hover:bg-pink-600 text-white px-6 py-2 rounded-xl transition">
+      <button id="submit-button" class="bg-pink-500 hover:bg-pink-600 text-white px-6 py-2 rounded-xl transition">
         Continue ❤️
       </button>
     </div>
@@ -40,12 +40,12 @@
       </h1>
 
       <div class="relative flex justify-center gap-6">
-        <button onclick="answerYes()"
+        <button id="yes-button"
           class="bg-green-500 hover:bg-green-600 text-white px-8 py-4 text-lg h-fit rounded-xl transition">
           Yes 💖
         </button>
 
-        <button id="no-button" onclick="moveNoButton()"
+        <button id="no-button"
           class="bg-gray-400 text-white px-8 py-4 text-lg rounded-xl h-fit transition">
           No 😢
         </button>
@@ -66,7 +66,7 @@
   <!-- Audio -->
   <audio id="bg-music" src="assets/music.mp3"></audio>
 
-  <script src="js/script.js"></script>
+  <script type="module" src="js/script.js"></script>
 </body>
 
 </html>
