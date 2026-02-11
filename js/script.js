@@ -124,12 +124,37 @@ function moveNoButton() {
   }
 }
 
+function createSparkles(count = 25) {
+  const container = document.getElementById("sparkle-container");
+  container.innerHTML = "";
+
+  for (let i = 0; i < count; i++) {
+    const sparkle = document.createElement("div");
+    sparkle.classList.add("sparkle");
+
+    const size = Math.random() * 10 + 8; // 8px–18px
+    sparkle.style.width = `${size}px`;
+    sparkle.style.height = `${size}px`;
+
+    sparkle.style.left = `${Math.random() * 100}%`;
+    sparkle.style.top = `${Math.random() * 100}%`;
+
+    const duration = Math.random() * 3 + 4; // 4–7s
+    sparkle.style.animationDuration = `${duration}s`;
+
+    container.appendChild(sparkle);
+  }
+}
+
 function showWelcomeTransition() {
   const overlay = document.getElementById("welcome-overlay");
   const overlayTextContainer = document.getElementById("welcome-text-container");
 
   // Show overlay
   overlay.classList.remove("opacity-0", "pointer-events-none");
+
+  // Create sparkles
+  createSparkles(40);
 
   // Start the animation
   overlayTextContainer.classList.add("animate-welcome");
@@ -146,7 +171,7 @@ function showWelcomeTransition() {
       overlay.classList.add("pointer-events-none");
     }, 500);
 
-  }, 2000);
+  }, 2500);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
