@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <title>Valentine</title>
 
   <!-- Tailwind CDN -->
@@ -11,62 +12,54 @@
   <!-- Custom CSS -->
   <link rel="stylesheet" href="css/style.css" />
 </head>
-<body class="bg-pink-50 flex items-center justify-center min-h-screen">
 
-  <!-- Step 1: Name Input -->
-  <div id="name-screen" class="text-center space-y-4">
-    <h1 class="text-3xl font-bold text-pink-600">
-      What is your name?
-    </h1>
+<body class="bg-pink-50 min-h-screen flex items-center justify-center px-6 overflow-hidden">
+  <div class="w-full max-w-md mx-auto min-h-[70vh] my-auto text-center content-center">
 
-    <input 
-      id="name-input"
-      type="text"
-      placeholder="Enter your name..."
-      class="px-4 py-2 rounded-xl border border-pink-300 focus:outline-none focus:ring-2 focus:ring-pink-400"
-    />
+    <!-- Step 1: Name Input -->
+    <div id="name-screen" class="text-center space-y-4">
+      <h1 class="text-3xl sm:text-4xl font-bold text-pink-600">
+        What is your name?
+      </h1>
 
-    <br />
+      <input id="name-input" type="text" placeholder="Enter your name..."
+        class="px-4 py-2 rounded-xl border border-pink-300 focus:outline-none focus:ring-2 focus:ring-pink-400" />
 
-    <button 
-      onclick="submitName()"
-      class="bg-pink-500 hover:bg-pink-600 text-white px-6 py-2 rounded-xl transition"
-    >
-      Continue ❤️
-    </button>
-  </div>
+      <br />
 
-  <!-- Step 2: Question Screen -->
-  <div id="question-screen" class="hidden text-center space-y-6">
-    <h1 class="text-4xl font-bold text-pink-600">
-      Would you be my Valentine?
-    </h1>
-
-    <div class="space-x-4">
-      <button 
-        onclick="answerYes()"
-        class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-xl transition"
-      >
-        Yes 💖
-      </button>
-
-      <button 
-        id="no-button"
-        onmouseover="moveNoButton()"
-        class="bg-gray-400 text-white px-6 py-3 rounded-xl absolute"
-      >
-        No 😢
+      <button onclick="submitName()" class="bg-pink-500 hover:bg-pink-600 text-white px-6 py-2 rounded-xl transition">
+        Continue ❤️
       </button>
     </div>
-  </div>
 
-  <!-- Step 3: Success Screen -->
-  <div id="success-screen" class="hidden text-center space-y-4">
-    <h1 class="text-4xl font-bold text-pink-600">
-      YAY!!! ❤️
-    </h1>
+    <!-- Step 2: Question Screen -->
+    <div id="question-screen" class="hidden text-center space-y-6">
+      <h1 class="text-3xl sm:text-4xl font-bold text-pink-600">
+        Would you be my Valentine?
+      </h1>
 
-    <p id="personal-message" class="text-xl text-gray-700"></p>
+      <div class="relative flex justify-center gap-6">
+        <button onclick="answerYes()"
+          class="bg-green-500 hover:bg-green-600 text-white px-8 py-4 text-lg h-fit rounded-xl transition">
+          Yes 💖
+        </button>
+
+        <button id="no-button" onclick="moveNoButton()"
+          class="bg-gray-400 text-white px-8 py-4 text-lg rounded-xl h-fit transition">
+          No 😢
+        </button>
+      </div>
+    </div>
+
+    <!-- Step 3: Success Screen -->
+    <div id="success-screen" class="hidden text-center space-y-4">
+      <h1 class="text-3xl sm:text-4xl font-bold text-pink-600">
+        YAY!!! ❤️
+      </h1>
+
+      <p id="personal-message" class="text-xl text-gray-700"></p>
+    </div>
+
   </div>
 
   <!-- Audio -->
@@ -74,4 +67,5 @@
 
   <script src="js/script.js"></script>
 </body>
+
 </html>
