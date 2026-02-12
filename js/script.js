@@ -227,10 +227,6 @@ function answerYes() {
   }
 
   showScreen("success-screen");
-
-  const message = document.getElementById("personal-message");
-  message.innerText =
-    `Thank you, ${intendedPersonNickname}.\nYou just made me the happiest person alive ❤️`;
 }
 
 function answerNo() {
