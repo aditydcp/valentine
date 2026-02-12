@@ -38,6 +38,10 @@ function showNameErrorText(type) {
   input.classList.remove("shake");
   void input.offsetWidth;
   input.classList.add("shake");
+
+  if (navigator.vibrate) {
+    navigator.vibrate(100);
+  }
 }
 
 function validateUser(name) {
