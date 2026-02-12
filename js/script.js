@@ -1,5 +1,6 @@
 import { emptyNameErrorTexts, partialNameErrorTexts, wrongNameErrorTexts, rejectQuestionErrorTexts } from "./texts.js";
 import confetti from "https://cdn.skypack.dev/canvas-confetti";
+import { musicConfig } from "./musics.js";
 
 const intendedPersonName = "Yohana Sinta Kristyasari";
 const intendedPersonNickname = "Sinta";
@@ -98,7 +99,7 @@ function submitName() {
     return;
   }
 
-  playSound("question-song", { volume: 0.4, loop: true });
+  playSong(musicConfig.question);
 
   showWelcomeTransition();
 }
@@ -221,10 +222,10 @@ function answerYes() {
   document.getElementById("hearts-bg").classList.add("hidden");
   stopHearts();
 
-  stopSound("question-song");
+  stopSong(musicConfig.question.id);
   playSound("confetti-sfx");
   setTimeout(() => {
-    playSound("finish-song", { volume: 0.45, loop: true });
+    playSong(musicConfig.finish);
   }, 1000);
 
   triggerAllConfetti();
@@ -413,6 +414,18 @@ function showWelcomeTransition() {
   }, 5000);
 }
 
+function playSong({ id, volume = 1, title, artist }, loop = true) {
+  playSound(id, { volume, loop });
+  setTimeout(() => {
+    showMusic(title, artist);
+  }, 5000);
+}
+
+function stopSong(id) {
+  stopSound(id);
+  hideMusic();
+}
+
 function playSound(id, { volume = 1, loop = false } = {}) {
   const audio = document.getElementById(id);
   if (!audio) return;
@@ -430,6 +443,19 @@ function stopSound(id) {
 
   audio.pause();
   audio.currentTime = 0;
+}
+
+function showMusic(title, artist) {
+  const box = document.getElementById("music-indicator");
+
+  document.getElementById("track-title").innerText = title;
+  document.getElementById("track-artist").innerText = artist;
+
+  box.classList.add("show");
+}
+
+function hideMusic() {
+  document.getElementById("music-indicator").classList.remove("show");
 }
 
 let heartSpawner = null;

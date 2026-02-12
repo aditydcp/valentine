@@ -108,18 +108,6 @@ body {
 .floating-heart::before { top: -50%; left: 0; }
 .floating-heart::after  { left: -50%; top: 0; }
 
-/* @keyframes floatHeart {
-  0% {
-    transform: translateY(0) translateX(0) rotate(45deg);
-  }
-  50% {
-    transform: translateY(-50vh) translateX(20px) rotate(45deg);
-  }
-  100% {
-    transform: translateY(-110vh) translateX(-20px) rotate(45deg);
-  }
-} */
-
 @keyframes floatHeart {
   0% {
     transform: translateY(0) translateX(0) rotate(45deg);
@@ -127,4 +115,58 @@ body {
   100% {
     transform: translateY(-110vh) translateX(var(--drift)) rotate(45deg);
   }
+}
+
+.music-indicator {
+  position: fixed;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px) scale(.95);
+  opacity: 0;
+  visibility: hidden;
+
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(10px);
+  border-radius: 999px;
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 8px 25px rgba(0,0,0,.15);
+  z-index: 9999;
+
+  transition:
+    opacity .6s ease,
+    transform .6s ease,
+    visibility .6s;
+}
+
+.music-indicator.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0) scale(1);
+  visibility: visible;
+}
+
+.note {
+  font-size: 20px;
+  animation: notePulse 1.6s infinite ease-in-out;
+}
+
+@keyframes notePulse {
+  0%,100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.25) rotate(12deg); }
+}
+
+.track-info {
+  line-height: 1.1;
+}
+
+#track-title {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+#track-artist {
+  font-size: 12px;
+  opacity: .7;
 }
