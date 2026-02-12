@@ -98,11 +98,9 @@ function submitName() {
     return;
   }
 
-  showWelcomeTransition();
+  playSound("question-song", { volume: 0.4, loop: true });
 
-  document.getElementById("bg-music")
-    .play()
-    .catch(() => { });
+  showWelcomeTransition();
 }
 
 const confettiCanvas = document.createElement("canvas");
@@ -220,6 +218,12 @@ function triggerAllConfetti() {
 }
 
 function answerYes() {
+  stopSound("question-song");
+  playSound("confetti-sfx");
+  setTimeout(() => {
+    playSound("finish-song", { volume: 0.45, loop: true });
+  }, 1000);
+  
   triggerAllConfetti();
 
   if (navigator.vibrate) {
@@ -311,7 +315,6 @@ function enlargeYesButton() {
   button.style.transform = `scale(${currentScale})`;
 }
 
-
 function moveNoButton() {
   const button = document.getElementById("no-button");
   const container = document.getElementById("bounding-container");
@@ -380,7 +383,9 @@ function showWelcomeTransition() {
   const overlayTextContainer = document.getElementById("welcome-text-container");
 
   // Show overlay
-  overlay.classList.remove("opacity-0", "pointer-events-none");
+  setTimeout(() => {
+    overlay.classList.remove("opacity-0", "pointer-events-none");
+  }, 750);
 
   // Create sparkles
   createSparkles();
@@ -400,7 +405,26 @@ function showWelcomeTransition() {
       overlay.classList.add("pointer-events-none");
     }, 500);
 
-  }, 2500);
+  }, 5000);
+}
+
+function playSound(id, { volume = 1, loop = false } = {}) {
+  const audio = document.getElementById(id);
+  if (!audio) return;
+
+  audio.currentTime = 0;
+  audio.volume = volume;
+  audio.loop = loop;
+
+  audio.play().catch(() => {});
+}
+
+function stopSound(id) {
+  const audio = document.getElementById(id);
+  if (!audio) return;
+
+  audio.pause();
+  audio.currentTime = 0;
 }
 
 document.addEventListener("DOMContentLoaded", () => {
