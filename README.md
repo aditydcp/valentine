@@ -1,40 +1,39 @@
-💖 Interactive Valentine Web App
+# 💖 Interactive Valentine Web App
 
-A playful, animated Valentine web experience featuring name validation, dynamic buttons, confetti effects, floating hearts, sparkles, music playback, and interactive reactions. **This project is only meant for personal purpose, uses hardcoded string**.
+A playful, animated Valentine web experience featuring name validation, dynamic buttons, confetti effects, floating hearts, sparkles, music playback, and interactive reactions. **This project were only meant for personal purpose, uses hardcoded string**.
 
-⸻
+## ✨ Features
 
-✨ Features
-
-🎭 Interactive Flow
+### 🎭 Interactive Flow
 	•	Name validation with progressive error messages
 	•	Animated welcome transition overlay
 	•	Dynamic question screen behavior modes:
 	•	Anti-Reject Mode → No button runs away
 	•	Pro-Yes Mode → Yes button grows bigger
 
-🎉 Visual Effects
+### 🎉 Visual Effects
 	•	Confetti burst, spray, and falling particles
 	•	Floating drifting hearts background
 	•	Sparkle particle overlay
 	•	Shake animations for feedback
 	•	Smooth screen transitions
 
-🔊 Audio System
+### 🔊 Audio System
 	•	Background music per screen
 	•	Sound effects support
 	•	Programmatic playback control
 	•	Music indicator UI with track info
 
-📱 Mobile Optimized
+### 📱 Mobile Optimized
 	•	Responsive layout
 	•	Viewport-safe positioning
 	•	Touch vibration feedback
 
 ⸻
 
-📁 Project Structure
+## 📁 Project Structure
 
+```
 project/
 │
 ├── assets/
@@ -50,11 +49,9 @@ project/
 │   └── texts.js
 │
 └── index.html
+```
 
-
-⸻
-
-🚀 How It Works
+## 🚀 How It Works
 
 1. Name Validation
 
@@ -71,15 +68,14 @@ Validation is order-aware and prevents word skipping.
 2. Screen System
 
 Screens are swapped by toggling visibility:
-
+```
 showScreen("screen-id")
+```
 
 All screens follow the naming pattern:
-
+```
 [id$="-screen"]
-
-
-⸻
+```
 
 3. Confetti Engine
 
@@ -91,8 +87,6 @@ Effects included:
 	•	Continuous falling particles
 
 All share the same canvas for performance.
-
-⸻
 
 4. Hearts Background
 
@@ -106,21 +100,17 @@ Key design goals:
 
 The interval uses randomized timing so it looks natural.
 
-⸻
-
 5. Music Controller
 
 Audio is handled via HTMLAudioElements and helper functions:
-
+```
 playSound(id)
 stopSound(id)
 loopSound(id)
-
+```
 Includes an animated Now Playing indicator.
 
-⸻
-
-🛠 Technologies Used
+## 🛠 Technologies Used
 	•	HTML5
 	•	TailwindCSS (CDN)
 	•	Vanilla JavaScript (ES Modules)
@@ -128,9 +118,7 @@ Includes an animated Now Playing indicator.
 
 No frameworks required.
 
-⸻
-
-🎨 Design Philosophy
+## 🎨 Design Philosophy
 
 This project focuses on:
 	•	Delightful micro-interactions
@@ -141,22 +129,16 @@ This project focuses on:
 
 Every interaction should feel rewarding.
 
-⸻
-
-🧪 Debugging Tips
+## 🧪 Debugging Tips
 
 If effects don’t appear:
 
-Issue	Fix
-Confetti not showing	Ensure canvas appended to body
-Audio won’t play	Must be triggered by user interaction
-Buttons not moving	Check bounding container exists
-Animations stuck	Verify CSS classes present
+- **Confetti not showing**:	Ensure canvas appended to body
+- **Audio won’t play**:	Must be triggered by user interaction
+- **Buttons not moving**:	Check bounding container exists
+- **Animations stuck**:	Verify CSS classes present
 
-
-⸻
-
-🔮 Possible Improvements
+## 🔮 Possible Improvements
 
 Ideas for future upgrades:
 	•	Love letter screen
@@ -167,15 +149,11 @@ Ideas for future upgrades:
 	•	Personalized messages JSON
 	•	Multi-language support
 
-⸻
-
-❤️ Credits
+## ❤️ Credits
 
 Made with love and JavaScript.
 
-⸻
-
-📜 License
+## 📜 License
 
 Personal / private use project.
 
