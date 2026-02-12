@@ -29,10 +29,7 @@ function showNameErrorText(type) {
 
   const { count, texts } = state;
 
-  errorText.innerText =
-    count < texts.length
-      ? texts[count]
-      : texts[texts.length - 1];
+  errorText.innerText = texts[Math.min(count, texts.length - 1)];
 
   state.count++;
 
@@ -219,7 +216,7 @@ function triggerAllConfetti() {
 
   setTimeout(() => {
     startFallingConfetti();
-  }, 400);
+  }, 300);
 }
 
 function answerYes() {
@@ -233,7 +230,7 @@ function answerYes() {
 
   const message = document.getElementById("personal-message");
   message.innerText =
-    `Thank you, ${intendedPersonNickname}. You just made me the happiest person alive ❤️`;
+    `Thank you, ${intendedPersonNickname}.\nYou just made me the happiest person alive ❤️`;
 }
 
 function answerNo() {
@@ -275,10 +272,7 @@ function updateQuestionState(reset = false) {
 
   if (count === 0) toggleCat("angy");
 
-  errorText.innerText =
-    count < texts.length
-      ? texts[count]
-      : texts[texts.length - 1];
+  errorText.innerText = texts[Math.min(count, texts.length - 1)];
 
   questionState.reject.count++;
 
