@@ -218,12 +218,15 @@ function triggerAllConfetti() {
 }
 
 function answerYes() {
+  document.getElementById("hearts-bg").classList.add("hidden");
+  stopHearts();
+
   stopSound("question-song");
   playSound("confetti-sfx");
   setTimeout(() => {
     playSound("finish-song", { volume: 0.45, loop: true });
   }, 1000);
-  
+
   triggerAllConfetti();
 
   if (navigator.vibrate) {
@@ -385,6 +388,8 @@ function showWelcomeTransition() {
   // Show overlay
   setTimeout(() => {
     overlay.classList.remove("opacity-0", "pointer-events-none");
+    document.getElementById("hearts-bg").classList.remove("hidden");
+    startHearts();
   }, 750);
 
   // Create sparkles
@@ -416,7 +421,7 @@ function playSound(id, { volume = 1, loop = false } = {}) {
   audio.volume = volume;
   audio.loop = loop;
 
-  audio.play().catch(() => {});
+  audio.play().catch(() => { });
 }
 
 function stopSound(id) {
@@ -425,6 +430,67 @@ function stopSound(id) {
 
   audio.pause();
   audio.currentTime = 0;
+}
+
+let heartSpawner = null;
+
+function spawnHeart() {
+  const container = document.getElementById("hearts-bg");
+  if (!container) return;
+
+  const heart = document.createElement("div");
+  heart.className = "floating-heart";
+
+  // random size
+  const size = Math.random() * 18 + 12;
+  heart.style.width = `${size}px`;
+  heart.style.height = `${size}px`;
+
+  // random horizontal start
+  heart.style.left = Math.random() * 100 + "vw";
+
+  // random duration
+  const duration = Math.random() * 8 + 10;
+  heart.style.animationDuration = duration + "s";
+
+  // random opacity
+  heart.style.opacity = Math.random() * 0.5 + 0.4;
+
+  // random drift distance
+  heart.style.setProperty("--drift", (Math.random() * 60 - 30) + "px");
+
+  // random color (pink + white mix)
+  const colors = ["#ff6fa5", "#ff8fc0", "#ffc0cb", "#ffffff"];
+  heart.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+  container.appendChild(heart);
+
+  // remove after animation
+  setTimeout(() => {
+    heart.remove();
+  }, duration * 1000);
+}
+
+function startHearts() {
+  if (heartSpawner) return;
+
+  const loop = () => {
+    spawnHeart();
+
+    // random spawn timing (stream feel)
+    const next = Math.random() * 500 + 200;
+    heartSpawner = setTimeout(loop, next);
+  };
+
+  loop();
+}
+
+function stopHearts() {
+  clearTimeout(heartSpawner);
+  heartSpawner = null;
+
+  const container = document.getElementById("hearts-bg");
+  if (container) container.innerHTML = "";
 }
 
 document.addEventListener("DOMContentLoaded", () => {

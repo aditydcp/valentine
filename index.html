@@ -15,6 +15,9 @@
 </head>
 
 <body class="bg-pink-50 min-h-screen flex items-center justify-center px-6 overflow-hidden">
+  <!-- Hearts Background -->
+  <div id="hearts-bg" class="fixed inset-0 pointer-events-none overflow-hidden hidden z-0"></div>
+
   <div id="bounding-container" class="relative w-full max-w-md mx-auto min-h-[70vh] my-auto text-center content-center">
 
     <!-- Step 1: Name Input -->
@@ -37,7 +40,7 @@
     <!-- Step 2: Question Screen -->
     <div id="question-screen" class="hidden text-center space-y-4">
       <img id="question-img" src="assets/rose_cat.png" alt="Valentine" class="w-[40%] mx-auto" />
-      
+
       <h1 class="text-3xl sm:text-4xl font-bold text-pink-600">
         Would you be my Valentine?
       </h1>
@@ -64,7 +67,8 @@
         </div>
       </div>
 
-      <button id="reset-button" class="relative bg-pink-500 hover:bg-pink-600 text-white px-6 py-2 z-20 rounded-xl transition hidden">
+      <button id="reset-button"
+        class="relative bg-pink-500 hover:bg-pink-600 text-white px-6 py-2 z-20 rounded-xl transition hidden">
         Reset
       </button>
 
