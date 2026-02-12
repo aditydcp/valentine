@@ -223,7 +223,7 @@ function answerYes() {
   triggerAllConfetti();
 
   if (navigator.vibrate) {
-    navigator.vibrate(100);
+    navigator.vibrate(2000);
   }
 
   showScreen("success-screen");
