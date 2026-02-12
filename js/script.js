@@ -250,6 +250,7 @@ function updateQuestionState(reset = false) {
   const yesButtonContainer = document.getElementById("yes-button-container");
   const yesButton = document.getElementById("yes-button");
   const noButton = document.getElementById("no-button");
+  const resetButton = document.getElementById("reset-button");
 
   if (reset) {
     questionState.reject = { count: 0, texts: rejectQuestionErrorTexts };
@@ -262,6 +263,7 @@ function updateQuestionState(reset = false) {
     yesButtonContainer.classList.remove("z-10");
     noButton.style.transform = "translate(0px, 0px)";
     noButton.classList.remove("absolute");
+    resetButton.classList.add("hidden");
 
     return;
   }
@@ -271,6 +273,8 @@ function updateQuestionState(reset = false) {
   errorText.classList.remove("hidden");
 
   if (count === 0) toggleCat("angy");
+
+  if (count >= 3) resetButton.classList.remove("hidden");
 
   errorText.innerText = texts[Math.min(count, texts.length - 1)];
 
