@@ -1,4 +1,5 @@
 import { emptyNameErrorTexts, partialNameErrorTexts, wrongNameErrorTexts, rejectQuestionErrorTexts } from "./texts.js";
+import confetti from "https://cdn.skypack.dev/canvas-confetti";
 
 const intendedPersonName = "Yohana Sinta Kristyasari";
 const intendedPersonNickname = "Sinta";
@@ -107,11 +108,132 @@ function submitName() {
     .catch(() => { });
 }
 
+const confettiCanvas = document.createElement("canvas");
+
+const myConfetti = confetti.create(confettiCanvas, {
+  resize: true,
+  useWorker: true
+});
+window.myConfetti = myConfetti; // debug purpose
+
+function triggerSprayConfetti() {
+  // Continuous confetti burst
+  const duration = 2000;
+  const end = Date.now() + duration;
+
+  (function frame() {
+    myConfetti({
+      particleCount: 5,
+      angle: 60,
+      spread: 55,
+      origin: { x: 0 },
+      colors: ["#ffb6c1", "#ff69b4", "#ffc0cb", "#ffffff"],
+      startVelocity: 30,
+      gravity: 0.8,
+      scalar: 0.8,
+    });
+
+    myConfetti({
+      particleCount: 5,
+      angle: 120,
+      spread: 55,
+      origin: { x: 1 },
+      colors: ["#ffb6c1", "#ff69b4", "#ffc0cb", "#ffffff"],
+      startVelocity: 30,
+      gravity: 0.8,
+      scalar: 0.8,
+    });
+
+    if (Date.now() < end) {
+      requestAnimationFrame(frame);
+    }
+  })();
+}
+
+function triggerPopConfetti() {
+  // Initial explosive pop
+  myConfetti({
+    particleCount: 300,
+    spread: 120,
+    startVelocity: 55,
+    origin: { x: 0.5, y: 0.6 },
+    ticks: 60
+  });
+
+  // Slow-mo continuation layer
+  setTimeout(() => {
+    myConfetti({
+      particleCount: 120,
+      spread: 100,
+      startVelocity: 20,
+      gravity: 0.4,     // lighter gravity
+      ticks: 250,       // stay longer
+      scalar: 1.1,
+      origin: { x: 0.5, y: 0.6 }
+    });
+  }, 120);
+}
+
+let confettiInterval;
+
+function startFallingConfetti() {
+  if (confettiInterval) return;
+
+  confettiInterval = setTimeout(function spawn() {
+    myConfetti({
+      particleCount: 3,
+      angle: 90,
+      spread: 50,
+
+      startVelocity: 20,
+      gravity: 0.45,
+      ticks: 800,
+
+      drift: (Math.random() - 0.5) * 2,
+
+      scalar: Math.random() * 0.5 + 0.7,
+
+      origin: {
+        x: Math.random(),
+        y: 0
+      },
+
+      colors: ["#ffb6c1", "#ffc0cb", "#ffffff", "#ffd1dc"]
+    });
+
+    confettiInterval = setTimeout(spawn, 120 + Math.random() * 120);
+  }, 150);
+}
+
+function stopFallingConfetti() {
+  clearInterval(confettiInterval);
+  confettiInterval = null;
+}
+
+function triggerAllConfetti() {
+  triggerPopConfetti();
+
+  setTimeout(() => {
+    triggerSprayConfetti();
+  }, 150);
+
+  setTimeout(() => {
+    startFallingConfetti();
+  }, 400);
+}
+
 function answerYes() {
+  triggerAllConfetti();
+
+  if (navigator.vibrate) {
+    navigator.vibrate(100);
+  }
+
   showScreen("success-screen");
 
   const message = document.getElementById("personal-message");
-  message.innerText = `Thank you, ${intendedPersonNickname}. You just made me the happiest person alive ❤️`;
+  message.innerText =
+    `Thank you, ${intendedPersonNickname}. You just made me the happiest person alive ❤️`;
 }
 
 function answerNo() {
@@ -303,4 +425,15 @@ document.addEventListener("DOMContentLoaded", () => {
   document
     .getElementById("reset-button")
     .addEventListener("click", resetQuestion);
+
+  document.body.appendChild(confettiCanvas);
+  Object.assign(confettiCanvas.style, {
+    position: "fixed",
+    top: "0",
+    left: "0",
+    width: "100vw",
+    height: "100vh",
+    pointerEvents: "none",
+    zIndex: "9999"
+  });
 });
